@@ -1,0 +1,23 @@
+mongo:
+  database: database_name
+  user: database_user
+  password: database_user_password
+  host: database_host
+  port: database_port  # default mongo -> 27017
+
+tfl:
+  url: service api  # https://api.tfl.gov.uk
+  application_id: application_id
+  application_key: application_key
+  bus_and_stops_update_time: '10:00'  # %H:%M
+  arrivals_update_frequency: 60  # Seconds
+
+logging:
+  filename: 'londonbus.log'
+  level: 'INFO'
+  format: '%(asctime)s %(message)s'
+  datefmt: '%d.%m.%Y %H:%M:%S'
+
+# Server
+host: 0.0.0.0
+port: 8080
