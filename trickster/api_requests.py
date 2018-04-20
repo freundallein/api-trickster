@@ -14,8 +14,8 @@ __all__ = (
 
 async def obtain_buses(session, service_url, auth_params):
     api_url = f"{service_url}/Line/Mode/bus?{auth_params}"
-    async with session.get(api_url) as resp:
-        print(resp.status)
+    # async with session.get(api_url) as resp:
+    #     print(resp.status)
         # print(await resp.json())
     with open('test_fixtures/buses.json', 'r') as file:
         json_response = file.read()
