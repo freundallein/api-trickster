@@ -10,10 +10,6 @@ def create_trickster(loop, app):
     constant_earner(config, db, loop=loop)
 
 
-async def create_session():
-    return aiohttp.ClientSession()
-
-
 def constant_earner(config, db, loop=None):
     service_url = config['service_url']
     app_id = config['application_id']
@@ -21,9 +17,7 @@ def constant_earner(config, db, loop=None):
     bus_and_stop_schedule = config['bus_and_stops_update_time']
     arrivals_interval = config['arrivals_update_frequency']
     auth_params = create_auth_query_string(app_id, app_key)
-    session = create_session()
-    loop.create_task(
-        aggregate_buses_and_stops(db, session, service_url, auth_params,
-                                  bus_and_stop_schedule))
-    loop.create_task(process_arrivals(db, session, service_url, auth_params,
+    loop.create_task(aggregate_buses_and_stops(db, service_url, auth_params,
+                                               bus_and_stop_schedule))
+    loop.create_task(process_arrivals(db, service_url, auth_params,
                                       arrivals_interval))

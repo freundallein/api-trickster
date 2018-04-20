@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import json
 import asyncio
+
 from trickster.utils import (generate_arrivals_url, aggregate_lines_by_20,
                              generate_stops_url)
 
@@ -12,10 +13,10 @@ __all__ = (
 
 
 async def obtain_buses(session, service_url, auth_params):
-    # api_url = f"{service_url}/Line/Mode/bus?{auth_params}"
-    # async with session.get(api_url) as resp:
-    #     print(resp.status)
-    #     # print(await resp.json())
+    api_url = f"{service_url}/Line/Mode/bus?{auth_params}"
+    async with session.get(api_url) as resp:
+        print(resp.status)
+        # print(await resp.json())
     with open('test_fixtures/buses.json', 'r') as file:
         json_response = file.read()
         try:
@@ -28,14 +29,14 @@ async def obtain_buses(session, service_url, auth_params):
 
 async def obtain_stops(session, service_url, auth_params, lines):
     async for api_url, line in generate_stops_url(lines, service_url,
-                                                   auth_params):
+                                                  auth_params):
         # print(api_url)
         print(f"Stops for: {line}")
         await asyncio.sleep(1)
-    #     async with session.get(api_url) as resp:
-    #         print(resp.status)
-    #         print(await resp.text())
-    #         await asyncio.sleep(1)
+        #     async with session.get(api_url) as resp:
+        #         print(resp.status)
+        #         print(await resp.text())
+        #         await asyncio.sleep(1)
         with open('test_fixtures/stops.json', 'r') as file:
             json_response = file.read()
             try:
@@ -53,11 +54,11 @@ async def obtain_arrivals(session, service_url, auth_params, lines):
                                                       auth_params):
         print(f"Arrivals for: {buses}")
         await asyncio.sleep(1)
-    #     print(buses)
-    #     async with session.get(api_url) as resp:
-    #         print(resp.status)
-    #         print(await resp.text())
-    #         await asyncio.sleep(1)
+        #     print(buses)
+        #     async with session.get(api_url) as resp:
+        #         print(resp.status)
+        #         print(await resp.text())
+        #         await asyncio.sleep(1)
         with open('test_fixtures/arrivals.json', 'r') as file:
             json_response = file.read()
             try:
