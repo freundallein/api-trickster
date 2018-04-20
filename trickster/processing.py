@@ -12,9 +12,11 @@ __all__ = (
 
 async def aggregate_buses_and_stops(db, session, service_url, auth_params,
                                     scheduled):
+    forced = False
     while True:
         now = datetime.datetime.now().strftime('%H:%M')
-        if scheduled == now:
+        if scheduled == now or forced:
+            forced = False
             await process_buses(db, session, service_url, auth_params)
             await process_stops(db, session, service_url, auth_params)
         await asyncio.sleep(1)

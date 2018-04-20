@@ -10,6 +10,9 @@ async def get_buses(request):
         data = [
             {'id': bus['id'], 'number': bus['number']} async for bus in cursor
         ]
+        data = {'items_count': len(data),
+                'incomplete_results': not bool(len(data)),
+                'items': data}
         return web.json_response(data)
     except Exception as error:
         request.app.logger.error(error)
@@ -19,6 +22,7 @@ async def get_buses(request):
 async def get_bus_stops(request):
     try:
         line_id = request.match_info['line_id']
+        print(line_id)
         db = request.app['db']
         records = db.stops \
             .find({'line': line_id}) \
@@ -28,6 +32,9 @@ async def get_bus_stops(request):
              'line': stop['line'],
              'name': stop['station_name']} async for stop in records
         ]
+        data = {'items_count': len(data),
+                'incomplete_results': not bool(len(data)),
+                'items': data}
         return web.json_response(data)
     except Exception as error:
         request.app.logger.error(error)

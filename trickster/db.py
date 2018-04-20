@@ -7,7 +7,6 @@ async def update_buses(db, buses):
 
 async def update_stops(db, line, stops):
     # Update per line
-    print(line)
     await db.stops.remove({"line": line})
     await db.stops.insert_many(stops)
 
