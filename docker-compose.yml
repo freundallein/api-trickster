@@ -7,8 +7,6 @@ services:
     volumes:
       - ./:/srv/src
       - ./config:/srv/config
-    ports:
-      - 8080:8080
     network_mode: "host"
   nginx:
     image: nginx:latest
