@@ -12,7 +12,7 @@ __all__ = (
 
 async def aggregate_buses_and_stops(db, session, service_url, auth_params,
                                     scheduled):
-    forced = False
+    forced = True
     while True:
         now = datetime.datetime.now().strftime('%H:%M')
         if scheduled == now or forced:
