@@ -3,6 +3,11 @@ from aiohttp import web
 from core.handlers import handle_500
 
 
+async def get_healthcheck(request):
+    data = {"status": "OK"}
+    return web.json_response(data)
+
+
 async def get_buses(request):
     db = request.app['db']
     try:
