@@ -5,6 +5,13 @@ mongo:
   host: database_host
   port: database_port  # default mongo -> 27017
 
+postgres:
+  database: database_name
+  user: database_user
+  password: database_user_password
+  host: database_host
+  port: database_port  $ default pg -> 5432
+
 tfl:
   url: service api  # https://api.tfl.gov.uk
   application_id: application_id
@@ -21,3 +28,7 @@ logging:
 # Server
 host: 0.0.0.0
 port: 8080
+db: 'postgres'  # 'mongo'
+server_only: 1  # Boolean
+forced: 0   # Boolean
+debug: 1  # Boolean
