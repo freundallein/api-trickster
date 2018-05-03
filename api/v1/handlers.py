@@ -11,13 +11,7 @@ async def get_healthcheck(request):
 async def get_buses(request):
     db = request.app['db']
     try:
-        cursor = db.buses.find()
-        data = [
-            {'id': bus['id'], 'number': bus['number']} async for bus in cursor
-        ]
-        data = {'items_count': len(data),
-                'incomplete_results': not bool(len(data)),
-                'items': data}
+        data = await db.get_buses()
         return web.json_response(data)
     except Exception as error:
         request.app.logger.error(error)
@@ -27,19 +21,8 @@ async def get_buses(request):
 async def get_bus_stops(request):
     try:
         line_id = request.match_info['line_id']
-        print(line_id)
         db = request.app['db']
-        records = db.stops \
-            .find({'line': line_id}) \
-            .sort([("station_name", 1)])
-        data = [
-            {'id': stop['station_id'],
-             'line': stop['line'],
-             'name': stop['station_name']} async for stop in records
-        ]
-        data = {'items_count': len(data),
-                'incomplete_results': not bool(len(data)),
-                'items': data}
+        data = await db.get_bus_stops(line_id)
         return web.json_response(data)
     except Exception as error:
         request.app.logger.error(error)
@@ -51,16 +34,7 @@ async def get_arrivals(request):
         db = request.app['db']
         line_id = request.match_info['line_id']
         station_name = request.match_info['station_name']
-        records = db.arrivals \
-            .find({'line_id': line_id, 'station_name': station_name}) \
-            .sort([("expected", 1)])
-        data = [
-            {'line': arrival['line'],
-             'station_name': arrival['station_name'],
-             'direction': arrival['direction'],
-             'destination': arrival['destination'],
-             'arrival': arrival['expected']} async for arrival in records
-        ]
+        data = await db.get_arrivals(line_id, station_name)
         return web.json_response(data)
     except Exception as error:
         request.app.logger.error(error)

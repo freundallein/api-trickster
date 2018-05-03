@@ -3,7 +3,7 @@ import pathlib
 import yaml
 import logging
 
-from core.db import get_db_connection, DBImproperlyConfigured
+from core.db import get_db_connection
 from core.routes import routes
 from core.middlewares import error_pages
 from core.handlers import handle_404, handle_500

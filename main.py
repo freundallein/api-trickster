@@ -36,7 +36,9 @@ def main():
     loop = asyncio.get_event_loop()
     app = init_app(loop)
     configure_logging(app['config']['logging'])
-    create_trickster(loop, app)
+    server_only = bool(app['config']['server_only'])
+    if not server_only:
+        create_trickster(loop, app)
     create_server(loop, app)
     try:
         loop.run_forever()

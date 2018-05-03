@@ -6,7 +6,7 @@ import aiohttp
 
 from trickster.api_requests import *
 from trickster.utils import parse_buses, parse_stops, parse_arrivals
-from trickster.db import update_buses, update_stops, update_arrivals
+
 
 __all__ = (
     'aggregate_buses_and_stops'
@@ -14,8 +14,8 @@ __all__ = (
 
 
 async def aggregate_buses_and_stops(db, service_url, auth_params,
-                                    scheduled):
-    forced = True
+                                    scheduled, forced):
+    forced = bool(forced)
     async with aiohttp.ClientSession() as session:
         while True:
             now = datetime.datetime.now().strftime('%H:%M')
@@ -31,7 +31,7 @@ async def process_buses(db, session, service_url, auth_params):
         print('processing buses')
         buses = await obtain_buses(session, service_url, auth_params)
         buses = await parse_buses(buses)
-        await update_buses(db, buses)
+        await db.update_buses(buses)
     except Exception as err:
         print(err)
 
@@ -39,11 +39,11 @@ async def process_buses(db, session, service_url, auth_params):
 async def process_stops(db, session, service_url, auth_params):
     try:
         print('processing stops')
-        all_lines = [bus['id'] async for bus in db.buses.find()]
+        all_lines = await db.get_all_lines()
         async for stops, line in obtain_stops(session, service_url,
                                               auth_params, all_lines):
             stops = await parse_stops(stops, line)
-            await update_stops(db, line, stops)
+            await db.update_bus_stops(line, stops)
     except Exception as err:
         print(err)
 
@@ -53,13 +53,13 @@ async def process_arrivals(db, service_url, auth_params, interval):
         while True:
             try:
                 print('processing arrivals')
-                all_lines = [bus['id'] async for bus in db.buses.find()]
+                all_lines = await db.get_all_lines()
                 async for arrivals, lines in obtain_arrivals(session,
                                                              service_url,
                                                              auth_params,
                                                              all_lines):
                     arrivals = await parse_arrivals(arrivals)
-                    await update_arrivals(db, lines, arrivals)
+                    await db.update_arrivals(lines, arrivals)
                 await asyncio.sleep(interval)
             except Exception as err:
                 print(err)
