@@ -18,8 +18,7 @@ async def obtain_buses(session, service_url, auth_params):
         async with session.get(api_url) as resp:
             print("Buses")
             print(resp.status)
-            json_response = await resp.json()
-            buses = json.loads(json_response)
+            buses = await resp.json()
             print(buses)
             return buses
     except Exception as err:
