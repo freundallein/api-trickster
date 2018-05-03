@@ -34,8 +34,7 @@ async def obtain_stops(session, service_url, auth_params, lines):
             async with session.get(api_url) as resp:
                 print("Stops")
                 print(resp.status)
-                json_response = await resp.json()
-                stops = json.loads(json_response)
+                stops = await resp.json()
                 print(stops)
                 yield stops, line
     except Exception as err:
@@ -53,8 +52,7 @@ async def obtain_arrivals(session, service_url, auth_params, lines):
             async with session.get(api_url) as resp:
                 print("Arrivals")
                 print(resp.status)
-                json_response = await resp.json()
-                arrivals = json.loads(json_response)
+                arrivals = await resp.json()
                 yield arrivals, buses
     except Exception as err:
         print("Arrivals")
