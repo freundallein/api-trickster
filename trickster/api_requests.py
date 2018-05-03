@@ -19,7 +19,6 @@ async def obtain_buses(session, service_url, auth_params):
             print("Buses")
             print(resp.status)
             buses = await resp.json()
-            print(buses)
             return buses
     except Exception as err:
         print("Buses")
@@ -35,7 +34,6 @@ async def obtain_stops(session, service_url, auth_params, lines):
                 print("Stops")
                 print(resp.status)
                 stops = await resp.json()
-                print(stops)
                 yield stops, line
     except Exception as err:
         print("Stops")
