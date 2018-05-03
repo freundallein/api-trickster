@@ -10,6 +10,7 @@ aiohttp = "*"
 pyyaml = "*"
 motor = "*"
 redis = "*"
+aiopg = "*"
 
 [requires]
 python_version = "3.6"
