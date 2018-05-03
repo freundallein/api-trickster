@@ -1,6 +1,4 @@
 # -*- coding: utf-8 -*-
-import json
-import asyncio
 
 from trickster.utils import (generate_arrivals_url, aggregate_lines_by_20,
                              generate_stops_url)
