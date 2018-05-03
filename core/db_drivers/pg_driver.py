@@ -77,7 +77,7 @@ class PostgresDriver:
             async with self.pool.acquire() as conn:
                 async with conn.cursor() as cursor:
                     await cursor.execute(
-                        "SELECT line, station_name, direction, destination, expected from arrivals where line=%s and station_name=%s",
+                        "SELECT line, station_name, direction, destination, expected from arrivals where line=%s and station_name=%s order by expected",
                         (line_id, station_name))
                     data = [
                         {'line': row[0],
