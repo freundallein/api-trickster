@@ -13,9 +13,6 @@ __all__ = (
 
 
 async def debug_obtain_buses(session, service_url, auth_params):
-    # async with session.get(api_url) as resp:
-    #     print(resp.status)
-        # print(await resp.json())
     with open('test_fixtures/buses.json', 'r') as file:
         json_response = file.read()
         try:
@@ -29,13 +26,8 @@ async def debug_obtain_buses(session, service_url, auth_params):
 async def debug_obtain_stops(session, service_url, auth_params, lines):
     async for api_url, line in generate_stops_url(lines, service_url,
                                                   auth_params):
-        # print(api_url)
         print(f"Stops for: {line}")
         await asyncio.sleep(1)
-        #     async with session.get(api_url) as resp:
-        #         print(resp.status)
-        #         print(await resp.text())
-        #         await asyncio.sleep(1)
         with open('test_fixtures/stops.json', 'r') as file:
             json_response = file.read()
             try:
@@ -53,11 +45,6 @@ async def debug_obtain_arrivals(session, service_url, auth_params, lines):
                                                       auth_params):
         print(f"Arrivals for: {buses}")
         await asyncio.sleep(1)
-        #     print(buses)
-        #     async with session.get(api_url) as resp:
-        #         print(resp.status)
-        #         print(await resp.text())
-        #         await asyncio.sleep(1)
         with open('test_fixtures/arrivals.json', 'r') as file:
             json_response = file.read()
             try:
