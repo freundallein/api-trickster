@@ -133,7 +133,6 @@ class PostgresDriver:
             async with self.pool.acquire() as conn:
                 async with conn.cursor() as cur:
                     for line in lines:
-                        print(line)
                         await cur.execute("DELETE from arrivals where line_id=%s",
                                           (line,))
                     for arrival in arrivals:
